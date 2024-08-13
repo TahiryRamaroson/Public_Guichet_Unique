@@ -46,15 +46,15 @@ export function Accueil() {
         <div className="w-2/5 h-[50vh] lg:block bg-white z-10 rounded-r-xl">
           <Card className="w-full grid grid-cols-1 gap-3 place-items-center" shadow={false}>
             <img src="../../../public/img/logo_mps.png" className="h-20"/>
-            
               <Button className="w-[50%]" color="blue" variant="gradient">
                 <Link to="/page/statistique-naissance">
                   Naissance
                 </Link>
               </Button>
-            
             <Button className="w-[50%]" color="blue" variant="gradient">
-              Grossesse
+              <Link to="/page/statistique-grossesse">
+                Grossesse
+              </Link>
             </Button>
             <Button className="w-[50%]" color="blue" variant="gradient">
               Décès

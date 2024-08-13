@@ -128,19 +128,19 @@ const MapNumberComponent = ({statisticData}) => {
           {selectedFeature && (
             <div className="overflow-y-auto max-h-96">
               <table className="min-w-full bg-white">
-                <thead className="sticky top-0 text-left bg-white">
+                <thead className="sticky top-0 text-left bg-white border-y border-blue-gray-100">
                   <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">District</th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">Commune</th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">Fokotany</th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">Donnée</th>
+                    <th className="bg-blue-gray-50/50 p-4">District</th>
+                    <th className="bg-blue-gray-50/50 p-4">Commune</th>
+                    <th className="bg-blue-gray-50/50 p-4">Fokotany</th>
+                    <th className="bg-blue-gray-50/50 p-4">Donnée</th>
                   </tr>
                 </thead>
                 <tbody>
                       {statisticData[selectedFeature.properties.name].District && statisticData[selectedFeature.properties.name].District.map((district) => (
                         <React.Fragment key={district.id}>
                           {district.Commune && district.Commune.map((commune) => (
-                            <React.Fragment key={commune.nom}>
+                            <React.Fragment key={commune.id}>
                               {commune.Fokotany && commune.Fokotany.map((fokotany) => (
                                 <tr key={fokotany.id}>
                                   <td>{district.nom}</td>

@@ -31,7 +31,7 @@ import {
     options: {
       chart: {
         toolbar: {
-          show: false,
+          show: true,
         },
       },
       title: {
@@ -92,7 +92,7 @@ import {
         opacity: 1,
       },
       tooltip: {
-        theme: "dark",
+        theme: "light",
       },
     },
   };
@@ -101,6 +101,7 @@ import {
 
     const chartRef = useRef(null);
     const mapRef1 = useRef(null);
+    const mapRef2 = useRef(null);
 
     const [selectedSex, setSelectedSex] = useState('Femme');
     const handleSexChange = (event) => {
@@ -136,6 +137,18 @@ import {
   
     };
 
+    const handlePrintMap2 = () => {
+      const printContents = mapRef2.current.innerHTML;
+      const originalContents = document.body.innerHTML;                                            
+  
+      document.body.innerHTML = printContents;
+      window.print();
+  
+      document.body.innerHTML = originalContents; 
+      window.location.reload();
+  
+    };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -161,7 +174,7 @@ import {
                     </Typography>
                   </div>
                   <div className="absolute right-0 top-0">
-                    <Tooltip content="Télécharger">
+                    <Tooltip content="Télécharger PDF">
                       <Button className="text-center" color="blue" size="sm" onClick={handlePrintChart} variant="text">
                         <ArrowDownTrayIcon className="h-5 w-5" />
                       </Button>
@@ -189,7 +202,7 @@ import {
                 </Typography>
               </div>
               <div className="absolute right-0 top-0">
-                <Tooltip content="Télécharger">
+                <Tooltip content="Télécharger PDF">
                   <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap1} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
@@ -213,7 +226,7 @@ import {
               </div>
               <div>
                 <Typography variant="h6" color="white">
-                  Répartition par sexe par région
+                  Répartition des sexes par région
                 </Typography>
                 <div className="flex gap-10">
                   <Radio name="sexe" value="Homme" label="Homme" color="blue" ripple={true} checked={selectedSex === 'Homme'} onChange={handleSexChange} />
@@ -221,14 +234,14 @@ import {
                 </div>
               </div>
               <div className="absolute right-0 top-0">
-                <Tooltip content="Télécharger">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap1} variant="text">
+                <Tooltip content="Télécharger PDF">
+                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap2} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
               </div>
             </CardHeader>
-            <CardBody className="px-2 pb-0" ref={mapRef1}>
+            <CardBody className="px-2 pb-0" ref={mapRef2}>
               <MapNumberComponent statisticData={getStatisticData()} />
             </CardBody>
         </Card>
