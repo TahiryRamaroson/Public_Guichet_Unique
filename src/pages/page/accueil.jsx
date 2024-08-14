@@ -57,13 +57,19 @@ export function Accueil() {
               </Link>
             </Button>
             <Button className="w-[50%]" color="blue" variant="gradient">
-              Décès
+              <Link to="/page/statistique-deces">
+                Décès
+              </Link>
             </Button>
             <Button className="w-[50%]" color="blue" variant="gradient">
-              Migration
+              <Link to="/page/statistique-migration">
+                Migration
+              </Link>
             </Button>
             <Button className="w-[50%]" color="blue" variant="gradient">
-              Plainte
+              <Link to="/page/statistique-plainte">
+                Plainte
+              </Link>
             </Button>
           </Card>
         </div>

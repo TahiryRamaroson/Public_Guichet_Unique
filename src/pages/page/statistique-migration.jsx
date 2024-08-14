@@ -5,7 +5,12 @@ import {
     Typography,
     Button,
     Tooltip,
-    Input
+    Input,
+    Timeline,
+    TimelineItem,
+    TimelineHeader,
+    TimelineConnector,
+    TimelineIcon
   } from "@material-tailwind/react";
   
   import Chart from "react-apexcharts";
@@ -20,10 +25,18 @@ import {
   
   
   const chartConfig = {
-    type: "pie",
-    width: 500,
-    height: 500,
-    series: [44, 55, 13, 43, 22],
+    type: "line",
+    height: 360,
+    series: [
+        {
+          name: "Entrante",
+          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+        },
+        {
+          name: "Sortante", // ou un autre nom pour la deuxième ligne
+          data: [30, 25, 200, 220, 400, 300, 150, 180, 400], // données pour la deuxième ligne
+        },
+      ],
     options: {
       chart: {
         toolbar: {
@@ -34,20 +47,73 @@ import {
         show: "",
       },
       dataLabels: {
-        enabled: true,
+        enabled: false,
       },
-      colors: ["#7e32db", "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
+      colors: ["#28da40", "#3599ee"],
+      stroke: {
+        lineCap: "round",
+        curve: "smooth",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: "#979899",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#979899",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+      },
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        padding: {
+          top: 5,
+          right: 20,
+        },
+      },
+      fill: {
+        opacity: 0.8,
+      },
+      tooltip: {
+        theme: "light",
+      },
       legend: {
         show: true,
         labels: {
             colors: 'white'
           }
       },
-      labels: ["18-25", "26-32", "33-40", "40-45", "45+"],
     },
   };
 
-  export function StatistiqueGrossesse() {
+  export function StatistiqueMigration() {
 
     const chartRef1 = useRef(null);
     const chartRef2 = useRef(null);
@@ -84,7 +150,7 @@ import {
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-center z-10 mt-10">
             <Typography variant="h3" color="white">
-                Statistique des grossesses
+                Statistique des migrations
             </Typography>
         </div>
         <Card className="w-[80%] bg-transparent border-2 mt-10 mb-10">
@@ -99,7 +165,7 @@ import {
               </div>
               <div>
                 <Typography variant="h6" color="white">
-                    Nombre de grossesses par tranche d&apos;âge
+                    Flux de migration entrante et sortante
                 </Typography>
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
@@ -120,7 +186,7 @@ import {
                 </Tooltip>
               </div>
             </CardHeader>
-            <CardBody className="mt-4 grid place-items-center px-2" ref={chartRef1}>
+            <CardBody className="px-2 pb-0" ref={chartRef1}>
                 <Chart {...chartConfig} />
             </CardBody>
         </Card>
@@ -137,7 +203,7 @@ import {
               </div>
               <div>
                 <Typography variant="h6" color="white">
-                    Taux de complications par tranche d&apos;âge
+                    Motif de migration les plus fréquents
                 </Typography>
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
@@ -159,7 +225,48 @@ import {
               </div>
             </CardHeader>
             <CardBody className="mt-4 grid place-items-center px-2" ref={chartRef2}>
-                <Chart {...chartConfig} />
+            <div className="w-[25rem]">
+                <Timeline>
+                  <TimelineItem className="h-28">
+                    <TimelineConnector className="!w-[78px]" />
+                    <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                      <TimelineIcon className="p-3" variant="ghost" color="blue">
+                        n°1
+                      </TimelineIcon>
+                      <div className="flex flex-col gap-1">
+                        <Typography variant="h6" color="blue-gray">
+                          Fondation d&apos;un nouveau ménage
+                        </Typography>
+                      </div>
+                    </TimelineHeader>
+                  </TimelineItem>
+                  <TimelineItem className="h-28">
+                    <TimelineConnector className="!w-[78px]" />
+                    <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                      <TimelineIcon className="p-3" variant="ghost" color="blue">
+                        n°2
+                      </TimelineIcon>
+                      <div className="flex flex-col gap-1">
+                        <Typography variant="h6" color="blue-gray">
+                          Poursuite des études
+                        </Typography>
+                      </div>
+                    </TimelineHeader>
+                  </TimelineItem>
+                  <TimelineItem className="h-28">
+                    <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                      <TimelineIcon className="p-3" variant="ghost" color="blue">
+                        n°3
+                      </TimelineIcon>
+                      <div className="flex flex-col gap-1">
+                        <Typography variant="h6" color="blue-gray">
+                          Raison médical
+                        </Typography>
+                      </div>
+                    </TimelineHeader>
+                  </TimelineItem>
+                </Timeline>
+            </div>
             </CardBody>
         </Card>
         
@@ -167,5 +274,5 @@ import {
     );
   }
   
-  export default StatistiqueGrossesse;
+  export default StatistiqueMigration;
   

@@ -6,3 +6,6 @@ export * from "@/widgets/layout/navbar";
 export * from "@/widgets/layout/number-formatter";
 export * from "@/widgets/layout/date-formatter";
 export * from "@/widgets/layout/particle";
+export * from "@/widgets/layout/map-number";
+export * from "@/widgets/layout/map-text";
+export * from "@/widgets/layout/navbar-public";

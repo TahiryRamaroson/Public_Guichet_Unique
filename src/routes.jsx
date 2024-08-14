@@ -1,7 +1,7 @@
 import {
   ServerStackIcon,
 } from "@heroicons/react/24/solid";
-import { Accueil, StatistiqueGrossesse, StatistiqueNaissance} from "@/pages/page";
+import { Accueil, StatistiqueDeces, StatistiqueGrossesse, StatistiqueMigration, StatistiqueNaissance, StatistiquePlainte} from "@/pages/page";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -29,6 +29,24 @@ export const routes = [
         name: "statistique-grossesse",
         path: "/statistique-grossesse",
         element: <StatistiqueGrossesse />,
+      },
+      {
+        icon: <ServerStackIcon {...icon} />,
+        name: "statistique-deces",
+        path: "/statistique-deces",
+        element: <StatistiqueDeces />,
+      },
+      {
+        icon: <ServerStackIcon {...icon} />,
+        name: "statistique-plainte",
+        path: "/statistique-plainte",
+        element: <StatistiquePlainte />,
+      },
+      {
+        icon: <ServerStackIcon {...icon} />,
+        name: "statistique-migration",
+        path: "/statistique-migration",
+        element: <StatistiqueMigration />,
       },
     ],
   },
