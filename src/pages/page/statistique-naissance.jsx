@@ -12,7 +12,6 @@ import {
   
   import Chart from "react-apexcharts";
   import MapNumberComponent from "@/widgets/layout/map-number";
-  import { StatisticNaisance, StatisticNaisanceFemme, StatisticNaisanceHomme } from "@/data/statistic-naissance";
   import { Square3Stack3DIcon, ArrowDownTrayIcon} from "@heroicons/react/24/solid";
   import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
   import ParticlesComponent from "@/widgets/layout/particle";
@@ -25,16 +24,6 @@ import {
     const chartRef = useRef(null);
     const mapRef1 = useRef(null);
     const mapRef2 = useRef(null);
-
-    const [selectedSex, setSelectedSex] = useState('Femme');
-    const handleSexChange = (event) => {
-      setSelectedSex(event.target.value);
-      console.log(`---------------- ${event.target.value}`);
-    };
-
-    const getStatisticData = () => {
-      return selectedSex === 'Homme' ? StatisticNaisanceHomme : StatisticNaisanceFemme;
-    };
 
     const handlePrintChart = () => {
         const printContents = chartRef.current.innerHTML;
@@ -115,6 +104,8 @@ import {
 
     useEffect(() => {
         getNombreParMois();
+        getNombreParRegion();
+        getRepartitionSexeParRegion();
     }, []);
 
     const chartConfig = {
@@ -122,7 +113,7 @@ import {
       height: 240,
       series: [
         {
-          name: "Sales",
+          name: "Nombre de naissances",
           data: dataNombreParMois ? dataNombreParMois : [],
         },
       ],
@@ -195,6 +186,101 @@ import {
       },
     };
 
+    const [dataNombreParRegion, setDataNombreParRegion] = useState({});
+    const [formAnneeNombreParRegion, setFormAnneeNombreParRegion] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeNombreParRegionChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeNombreParRegion({
+        ...formAnneeNombreParRegion,
+        [name]: value,
+      });
+      console.log(formAnneeNombreParRegion);
+    };
+
+    const [loading, setLoading] = useState(true);
+
+    const getNombreParRegion = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/naissance/nombreParRegion`;
+  
+      try {
+        setLoading(true);
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeNombreParRegion),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataNombreParRegion(data);
+        console.log(dataNombreParRegion);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      } finally {  
+        setLoading(false);
+      }
+    };
+
+    const [dataRepartitionSexeParRegion, setDataRepartitionSexeParRegion] = useState({});
+    const [formAnneeRepartitionSexeParRegion, setFormAnneeRepartitionSexeParRegion] = useState({
+      annee: 0,
+      sexe: 1,
+    });
+
+    const handleAnneeRepartitionSexeParRegionChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeRepartitionSexeParRegion({
+        ...formAnneeRepartitionSexeParRegion,
+        [name]: value,
+      });
+      console.log(formAnneeRepartitionSexeParRegion);
+    };
+
+    const [loadingSexe, setLoadingSexe] = useState(true);
+
+    const getRepartitionSexeParRegion = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/naissance/repartitionSexeParRegion`;
+  
+      try {
+        setLoadingSexe(true);
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeRepartitionSexeParRegion),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataRepartitionSexeParRegion(data);
+        console.log(dataRepartitionSexeParRegion);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      } finally {  
+        setLoadingSexe(false);
+      }
+    };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -259,9 +345,9 @@ import {
                 <Typography variant="h6" color="white">
                   Nombre de naissances par région
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getNombreParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div className="flex flex-col">
-                    <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                    <Input onChange={handleAnneeNombreParRegionChange} value={formAnneeNombreParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                   </div>
                   <div className="flex flex-col">
                     <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -279,7 +365,11 @@ import {
               </div>
             </CardHeader>
             <CardBody className="px-2 pb-0" ref={mapRef1}>
-              <MapNumberComponent statisticData={StatisticNaisance} />
+            {loading ? (
+              <p className="animate-pulse">Chargement des données...</p>
+            ) : (
+              <MapNumberComponent statisticData={dataNombreParRegion} annee={formAnneeNombreParRegion.annee} isSexe={false} apiDetails="naissance/detailsNombreParRegion" />
+            )}
             </CardBody>
         </Card>
 
@@ -297,20 +387,20 @@ import {
                 <Typography variant="h6" color="white">
                   Répartition des sexes par région
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getRepartitionSexeParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div className="flex flex-col">
-                    <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                    <Input onChange={handleAnneeRepartitionSexeParRegionChange} value={formAnneeRepartitionSexeParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                   </div>
                   <div className="flex flex-col">
                     <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                       <MagnifyingGlassIcon className="h-5 w-5" />
                     </Button>
                   </div>
-                </form>
-                <div className="flex gap-10">
-                  <Radio name="sexe" value="Homme" label="Homme" color="blue" ripple={true} checked={selectedSex === 'Homme'} onChange={handleSexChange} />
-                  <Radio name="sexe" value="Femme" label="Femme" color="blue" ripple={true} checked={selectedSex === 'Femme'} onChange={handleSexChange} />
+                  <div className="flex gap-10">
+                  <Radio name="sexe" value={1} label="Homme" color="blue" ripple={true} checked={formAnneeRepartitionSexeParRegion.sexe == 1} onChange={handleAnneeRepartitionSexeParRegionChange} />
+                  <Radio name="sexe" value={0} label="Femme" color="blue" ripple={true} checked={formAnneeRepartitionSexeParRegion.sexe == 0} onChange={handleAnneeRepartitionSexeParRegionChange} />
                 </div>
+                </form>
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
@@ -321,7 +411,11 @@ import {
               </div>
             </CardHeader>
             <CardBody className="px-2 pb-0" ref={mapRef2}>
-              <MapNumberComponent statisticData={getStatisticData()} />
+            {loadingSexe ? (
+              <p className="animate-pulse">Chargement des données...</p>
+            ) : (
+              <MapNumberComponent statisticData={dataRepartitionSexeParRegion} annee={formAnneeRepartitionSexeParRegion.annee} sexe={formAnneeRepartitionSexeParRegion.sexe} isSexe={true} apiDetails="naissance/detailsRepartitionSexeParRegion" />
+            )}
             </CardBody>
         </Card>
         

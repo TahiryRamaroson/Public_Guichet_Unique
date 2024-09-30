@@ -11,7 +11,6 @@ import {
   
   import Chart from "react-apexcharts";
   import MapTextComponent from "@/widgets/layout/map-text";
-  import { StatisticDeces } from "@/data/statistic-deces";
   import { Square3Stack3DIcon, ArrowDownTrayIcon} from "@heroicons/react/24/solid";
   import ParticlesComponent from "@/widgets/layout/particle";
   import { NavbarPublic } from "@/widgets/layout";
@@ -93,6 +92,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
     useEffect(() => {
       getNombreParCategorie();
+      getPlusFrequentParRegion();
   }, []);
 
     const chartConfig = {
@@ -100,7 +100,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
       height: 500,
       series: [
         {
-          name: "Sales",
+          name: "Nombre de plaintes",
           data: dataNombreParCategorie.series ? dataNombreParCategorie.series : [],
         },
       ],
@@ -174,6 +174,53 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
       },
     };
 
+    const [dataPlusFrequentParRegion, setDataPlusFrequentParRegion] = useState({});
+    const [formAnneePlusFrequentParRegion, setFormAnneePlusFrequentParRegion] = useState({
+      annee: 0,
+    });
+
+    const handleAnneePlusFrequentParRegionChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneePlusFrequentParRegion({
+        ...formAnneePlusFrequentParRegion,
+        [name]: value,
+      });
+      console.log(formAnneePlusFrequentParRegion);
+    };
+
+    const [loadingPlusFrequent, setLoadingPlusFrequent] = useState(true);
+
+    const getPlusFrequentParRegion = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/plainte/plusFrequentParRegion`;
+  
+      try {
+        setLoadingPlusFrequent(true);
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneePlusFrequentParRegion),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataPlusFrequentParRegion(data);
+        console.log(dataPlusFrequentParRegion);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      } finally {  
+        setLoadingPlusFrequent(false);
+      }
+    };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -237,9 +284,9 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
                 <Typography variant="h6" color="white">
                     Plaintes les plus fréquents par région
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getPlusFrequentParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneePlusFrequentParRegionChange} value={formAnneePlusFrequentParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -257,7 +304,11 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
             </CardHeader>
             <CardBody className="px-2 pb-0" ref={mapRef2}>
-              <MapTextComponent statisticData={StatisticDeces} />
+            {loadingPlusFrequent ? (
+              <p className="animate-pulse">Chargement des données...</p>
+            ) : (
+              <MapTextComponent statisticData={dataPlusFrequentParRegion} annee={formAnneePlusFrequentParRegion.annee} apiDetails="plainte/detailsPlusFrequentParRegion" />
+            )}
             </CardBody>
         </Card>
         

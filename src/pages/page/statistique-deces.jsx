@@ -12,8 +12,6 @@ import {
   import Chart from "react-apexcharts";
   import MapNumberComponent from "@/widgets/layout/map-number";
   import MapTextComponent from "@/widgets/layout/map-text";
-  import { StatisticNaisance} from "@/data/statistic-naissance";
-  import { StatisticDeces } from "@/data/statistic-deces";
   import { Square3Stack3DIcon, ArrowDownTrayIcon} from "@heroicons/react/24/solid";
   import ParticlesComponent from "@/widgets/layout/particle";
   import { NavbarPublic } from "@/widgets/layout";
@@ -122,6 +120,8 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
     useEffect(() => {
       getMortaliteParTrancheAge();
       getCauseParTrancheAge();
+      getTauxMortaliteParRegion();
+      getCauseParRegion();
   }, []);
 
     const chartConfig2 = {
@@ -244,6 +244,100 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
         console.error('Erreur lors de la soumission du formulaire :', error.message);
       }
     }; 
+
+    const [dataTauxMortaliteParRegion, setDataTauxMortaliteParRegion] = useState({});
+    const [formAnneeTauxMortaliteParRegion, setFormAnneeTauxMortaliteParRegion] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeTauxMortaliteParRegionChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeTauxMortaliteParRegion({
+        ...formAnneeTauxMortaliteParRegion,
+        [name]: value,
+      });
+      console.log(formAnneeTauxMortaliteParRegion);
+    };
+
+    const [loadingTauxMortalite, setLoadingTauxMortalite] = useState(true);
+
+    const getTauxMortaliteParRegion = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/deces/tauxMortaliteParRegion`;
+  
+      try {
+        setLoadingTauxMortalite(true);
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeTauxMortaliteParRegion),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataTauxMortaliteParRegion(data);
+        console.log(dataTauxMortaliteParRegion);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      } finally {  
+        setLoadingTauxMortalite(false);
+      }
+    };
+
+    const [dataCauseParRegion, setDataCauseParRegion] = useState({});
+    const [formAnneeCauseParRegion, setFormAnneeCauseParRegion] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeCauseParRegionChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeCauseParRegion({
+        ...formAnneeCauseParRegion,
+        [name]: value,
+      });
+      console.log(formAnneeCauseParRegion);
+    };
+
+    const [loadingCause, setLoadingCause] = useState(true);
+
+    const getCauseParRegion = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/deces/causeParRegion`;
+  
+      try {
+        setLoadingCause(true);
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeCauseParRegion),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataCauseParRegion(data);
+        console.log(dataCauseParRegion);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      } finally {  
+        setLoadingCause(false);
+      }
+    };
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
@@ -387,9 +481,9 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
                 <Typography variant="h6" color="white">
                   Taux de mortalité par région
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getTauxMortaliteParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeTauxMortaliteParRegionChange} value={formAnneeTauxMortaliteParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -407,7 +501,11 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
             </CardHeader>
             <CardBody className="px-2 pb-0" ref={mapRef1}>
-              <MapNumberComponent statisticData={StatisticNaisance} />
+            {loadingTauxMortalite ? (
+              <p className="animate-pulse">Chargement des données...</p>
+            ) : (
+              <MapNumberComponent statisticData={dataTauxMortaliteParRegion} annee={formAnneeTauxMortaliteParRegion.annee} isSexe={false} apiDetails="deces/detailsTauxMortaliteParRegion" />
+            )}
             </CardBody>
         </Card>
 
@@ -425,9 +523,9 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
                 <Typography variant="h6" color="white">
                     Causes principales de décès par région
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getCauseParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeCauseParRegionChange} value={formAnneeCauseParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -445,7 +543,11 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
             </CardHeader>
             <CardBody className="px-2 pb-0" ref={mapRef2}>
-              <MapTextComponent statisticData={StatisticDeces} />
+            {loadingCause ? (
+              <p className="animate-pulse">Chargement des données...</p>
+            ) : (
+              <MapTextComponent statisticData={dataCauseParRegion} annee={formAnneeCauseParRegion.annee} apiDetails="deces/detailsCauseParRegion" />
+            )}
             </CardBody>
         </Card>
         
