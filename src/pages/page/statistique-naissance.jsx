@@ -1,3 +1,4 @@
+import { api_url } from "@/configs/api-url";
 import {
     CardHeader,
     Card,
@@ -16,89 +17,8 @@ import {
   import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
   import ParticlesComponent from "@/widgets/layout/particle";
   import { NavbarPublic } from "@/widgets/layout";
-
-
-  import { useState, useRef } from 'react';
-  import { useNavigate } from 'react-router-dom';
+  import { useState, useRef, useEffect } from 'react';
   
-  
-  const chartConfig = {
-    type: "bar",
-    height: 240,
-    series: [
-      {
-        name: "Sales",
-        data: [141, 28, 275, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: true,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#3599ee"],
-      plotOptions: {
-        bar: {
-          columnWidth: "40%",
-          borderRadius: 2,
-        },
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#979899",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: ["January", "February", "March", "April", "May", "June", "Juy", "August", "September", "October", "November", "December"],
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#979899",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      tooltip: {
-        theme: "light",
-      },
-    },
-  };
 
   export function StatistiqueNaissance() {
 
@@ -152,6 +72,129 @@ import {
   
     };
 
+    const [dataNombreParMois, setDataNombreParMois] = useState([]);
+    const [formAnneeNombreParMois, setFormAnneeNombreParMois] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeNombreParMoisChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeNombreParMois({
+        ...formAnneeNombreParMois,
+        [name]: value,
+      });
+      console.log(formAnneeNombreParMois);
+    };
+
+    const getNombreParMois = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/naissance/nombreParMois`;
+  
+      try {
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeNombreParMois),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataNombreParMois(data);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      }
+    };    
+
+    useEffect(() => {
+        getNombreParMois();
+    }, []);
+
+    const chartConfig = {
+      type: "bar",
+      height: 240,
+      series: [
+        {
+          name: "Sales",
+          data: dataNombreParMois ? dataNombreParMois : [],
+        },
+      ],
+      options: {
+        chart: {
+          toolbar: {
+            show: true,
+          },
+        },
+        title: {
+          show: "",
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        colors: ["#3599ee"],
+        plotOptions: {
+          bar: {
+            columnWidth: "40%",
+            borderRadius: 2,
+          },
+        },
+        xaxis: {
+          axisTicks: {
+            show: false,
+          },
+          axisBorder: {
+            show: false,
+          },
+          labels: {
+            style: {
+              colors: "#979899",
+              fontSize: "12px",
+              fontFamily: "inherit",
+              fontWeight: 400,
+            },
+          },
+          categories: ["January", "February", "March", "April", "May", "June", "Juy", "August", "September", "October", "November", "December"],
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: "#979899",
+              fontSize: "12px",
+              fontFamily: "inherit",
+              fontWeight: 400,
+            },
+          },
+        },
+        grid: {
+          show: true,
+          borderColor: "#dddddd",
+          strokeDashArray: 5,
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          padding: {
+            top: 5,
+            right: 20,
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          theme: "light",
+        },
+      },
+    };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -178,9 +221,9 @@ import {
                     <Typography variant="h6" color="white">
                       Nombre de naissance par période
                     </Typography>
-                    <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <form onSubmit={getNombreParMois} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="flex flex-col">
-                          <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                          <Input onChange={handleAnneeNombreParMoisChange} value={formAnneeNombreParMois.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                         </div>
                         <div className="flex flex-col">
                           <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -214,7 +257,7 @@ import {
               </div>
               <div>
                 <Typography variant="h6" color="white">
-                  Taux de naissances par région
+                  Nombre de naissances par région
                 </Typography>
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div className="flex flex-col">

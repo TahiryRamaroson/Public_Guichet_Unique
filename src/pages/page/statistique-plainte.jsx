@@ -1,3 +1,4 @@
+import { api_url } from "@/configs/api-url";
 import {
     CardHeader,
     Card,
@@ -9,98 +10,16 @@ import {
   } from "@material-tailwind/react";
   
   import Chart from "react-apexcharts";
-  import MapNumberComponent from "@/widgets/layout/map-number";
   import MapTextComponent from "@/widgets/layout/map-text";
-  import { StatisticNaisance} from "@/data/statistic-naissance";
   import { StatisticDeces } from "@/data/statistic-deces";
   import { Square3Stack3DIcon, ArrowDownTrayIcon} from "@heroicons/react/24/solid";
   import ParticlesComponent from "@/widgets/layout/particle";
   import { NavbarPublic } from "@/widgets/layout";
 
 
-  import { useState, useRef } from 'react';
-  import { useNavigate } from 'react-router-dom';
+  import { useState, useRef, useEffect } from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
   
-  
-const chartConfig = {
-    type: "bar",
-    height: 500,
-    series: [
-      {
-        name: "Sales",
-        data: [141, 28, 275, 50, 40, 300, 320, 500, 350, 200, 230, 500],
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: true,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#3599ee"],
-      plotOptions: {
-        bar: {
-          columnWidth: "40%",
-          borderRadius: 2,
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#979899",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: ["Plainte 1", "Plainte 2", "Plainte 3", "Plainte 4", "Plainte 5", "Plainte 6", "Plainte 7", "Plainte 8", "Plainte 9", "Plainte 10", "Plainte 11", "Plainte 12"],
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#979899",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      tooltip: {
-        theme: "light",
-      },
-    },
-  };
 
   export function StatistiquePlainte() {
 
@@ -131,6 +50,130 @@ const chartConfig = {
   
     };
 
+    const [dataNombreParCategorie, setDataNombreParCategorie] = useState([]);
+    const [formAnneeNombreParCategorie, setFormAnneeNombreParCategorie] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeNombreParCategorieChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeNombreParCategorie({
+        ...formAnneeNombreParCategorie,
+        [name]: value,
+      });
+      console.log(formAnneeNombreParCategorie);
+    };
+
+    const getNombreParCategorie = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/plainte/nombreParCategorie`;
+  
+      try {
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeNombreParCategorie),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataNombreParCategorie(data);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      }
+    }; 
+
+    useEffect(() => {
+      getNombreParCategorie();
+  }, []);
+
+    const chartConfig = {
+      type: "bar",
+      height: 500,
+      series: [
+        {
+          name: "Sales",
+          data: dataNombreParCategorie.series ? dataNombreParCategorie.series : [],
+        },
+      ],
+      options: {
+        chart: {
+          toolbar: {
+            show: true,
+          },
+        },
+        title: {
+          show: "",
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        colors: ["#3599ee"],
+        plotOptions: {
+          bar: {
+            columnWidth: "40%",
+            borderRadius: 2,
+            horizontal: true,
+          },
+        },
+        xaxis: {
+          axisTicks: {
+            show: false,
+          },
+          axisBorder: {
+            show: false,
+          },
+          labels: {
+            style: {
+              colors: "#979899",
+              fontSize: "12px",
+              fontFamily: "inherit",
+              fontWeight: 400,
+            },
+          },
+          categories: dataNombreParCategorie.labels ? dataNombreParCategorie.labels : [],
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: "#979899",
+              fontSize: "12px",
+              fontFamily: "inherit",
+              fontWeight: 400,
+            },
+          },
+        },
+        grid: {
+          show: true,
+          borderColor: "#dddddd",
+          strokeDashArray: 5,
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          padding: {
+            top: 5,
+            right: 20,
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          theme: "light",
+        },
+      },
+    };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -156,9 +199,9 @@ const chartConfig = {
                 <Typography variant="h6" color="white">
                     Nombre de plaintes par catégorie
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getNombreParCategorie} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeNombreParCategorieChange} value={formAnneeNombreParCategorie.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">

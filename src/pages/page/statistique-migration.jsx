@@ -1,3 +1,4 @@
+import { api_url } from "@/configs/api-url";
 import {
     CardHeader,
     Card,
@@ -18,100 +19,8 @@ import {
   import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
   import ParticlesComponent from "@/widgets/layout/particle";
   import { NavbarPublic } from "@/widgets/layout";
-
-
-  import { useState, useRef } from 'react';
-  import { useNavigate } from 'react-router-dom';
+  import { useState, useRef, useEffect } from 'react';
   
-  
-  const chartConfig = {
-    type: "line",
-    height: 360,
-    series: [
-        {
-          name: "Entrante",
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-        },
-        {
-          name: "Sortante", // ou un autre nom pour la deuxième ligne
-          data: [30, 25, 200, 220, 400, 300, 150, 180, 400], // données pour la deuxième ligne
-        },
-      ],
-    options: {
-      chart: {
-        toolbar: {
-          show: true,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#28da40", "#3599ee"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#979899",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#979899",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "light",
-      },
-      legend: {
-        show: true,
-        labels: {
-            colors: 'white'
-          }
-      },
-    },
-  };
 
   export function StatistiqueMigration() {
 
@@ -142,6 +51,182 @@ import {
     
       };
 
+      const [dataFluxParMois, setDataFluxParMois] = useState([]);
+    const [formAnneeFluxParMois, setFormAnneeFluxParMois] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeFluxParMoisChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeFluxParMois({
+        ...formAnneeFluxParMois,
+        [name]: value,
+      });
+      console.log(formAnneeFluxParMois);
+    };
+
+    const getFluxParMois = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/migration/fluxParMois`;
+  
+      try {
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeFluxParMois),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataFluxParMois(data);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      }
+    }; 
+
+    useEffect(() => {
+      getFluxParMois();
+      getMotifPlusFrequent();
+    }, []);
+
+      const chartConfig = {
+        type: "line",
+        height: 360,
+        series: [
+            {
+              name: "Entrante",
+              data: dataFluxParMois.entrantes ? dataFluxParMois.entrantes : [],
+            },
+            {
+              name: "Sortante",
+              data: dataFluxParMois.sortantes ? dataFluxParMois.sortantes : [],
+            },
+          ],
+        options: {
+          chart: {
+            toolbar: {
+              show: true,
+            },
+          },
+          title: {
+            show: "",
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          colors: ["#28da40", "#3599ee"],
+          stroke: {
+            lineCap: "round",
+            curve: "smooth",
+          },
+          markers: {
+            size: 0,
+          },
+          xaxis: {
+            axisTicks: {
+              show: false,
+            },
+            axisBorder: {
+              show: false,
+            },
+            labels: {
+              style: {
+                colors: "#979899",
+                fontSize: "12px",
+                fontFamily: "inherit",
+                fontWeight: 400,
+              },
+            },
+            categories: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: "#979899",
+                fontSize: "12px",
+                fontFamily: "inherit",
+                fontWeight: 400,
+              },
+            },
+          },
+          grid: {
+            show: true,
+            borderColor: "#dddddd",
+            strokeDashArray: 5,
+            xaxis: {
+              lines: {
+                show: true,
+              },
+            },
+            padding: {
+              top: 5,
+              right: 20,
+            },
+          },
+          fill: {
+            opacity: 0.8,
+          },
+          tooltip: {
+            theme: "light",
+          },
+          legend: {
+            show: true,
+            labels: {
+                colors: 'white'
+              }
+          },
+        },
+      };
+
+    const [dataMotifPlusFrequent, setDataMotifPlusFrequent] = useState([]);
+    const [formAnneeMotifPlusFrequent, setFormAnneeMotifPlusFrequent] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeMotifPlusFrequentChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeMotifPlusFrequent({
+        ...formAnneeMotifPlusFrequent,
+        [name]: value,
+      });
+      console.log(formAnneeMotifPlusFrequent);
+    };
+
+    const getMotifPlusFrequent = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/migration/motifPlusFrequent`;
+  
+      try {
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeMotifPlusFrequent),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataMotifPlusFrequent(data);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      }
+    }; 
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -167,9 +252,9 @@ import {
                 <Typography variant="h6" color="white">
                     Flux de migration entrante et sortante
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getFluxParMois} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeFluxParMoisChange} value={formAnneeFluxParMois.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -205,9 +290,9 @@ import {
                 <Typography variant="h6" color="white">
                     Motif de migration les plus fréquents
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getMotifPlusFrequent} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeMotifPlusFrequentChange} value={formAnneeMotifPlusFrequent.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -227,44 +312,62 @@ import {
             <CardBody className="mt-4 grid place-items-center px-2" ref={chartRef2}>
             <div className="w-[25rem]">
                 <Timeline>
-                  <TimelineItem className="h-28">
-                    <TimelineConnector className="!w-[78px]" />
-                    <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
-                      <TimelineIcon className="p-3" variant="ghost" color="blue">
-                        n°1
-                      </TimelineIcon>
-                      <div className="flex flex-col gap-1">
-                        <Typography variant="h6" color="blue-gray">
-                          Fondation d&apos;un nouveau ménage
-                        </Typography>
-                      </div>
-                    </TimelineHeader>
-                  </TimelineItem>
-                  <TimelineItem className="h-28">
-                    <TimelineConnector className="!w-[78px]" />
-                    <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
-                      <TimelineIcon className="p-3" variant="ghost" color="blue">
-                        n°2
-                      </TimelineIcon>
-                      <div className="flex flex-col gap-1">
-                        <Typography variant="h6" color="blue-gray">
-                          Poursuite des études
-                        </Typography>
-                      </div>
-                    </TimelineHeader>
-                  </TimelineItem>
-                  <TimelineItem className="h-28">
-                    <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
-                      <TimelineIcon className="p-3" variant="ghost" color="blue">
-                        n°3
-                      </TimelineIcon>
-                      <div className="flex flex-col gap-1">
-                        <Typography variant="h6" color="blue-gray">
-                          Raison médical
-                        </Typography>
-                      </div>
-                    </TimelineHeader>
-                  </TimelineItem>
+                {dataMotifPlusFrequent && dataMotifPlusFrequent.length > 0 ? (
+                      dataMotifPlusFrequent.map((item, index) => (
+                        <TimelineItem key={item.id} className="h-28">
+                          <TimelineConnector className="!w-[78px]" />
+                          <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                            <TimelineIcon className="p-3" variant="ghost" color="blue">
+                              n°{index + 1}
+                            </TimelineIcon>
+                            <div className="flex flex-col gap-1">
+                              <Typography variant="h6" color="blue-gray">
+                                {item.nom ? item.nom : ''}
+                              </Typography>
+                            </div>
+                          </TimelineHeader>
+                        </TimelineItem>
+                      ))
+                    ) : (
+                      <Timeline>
+                      <TimelineItem className="h-28">
+                        <TimelineConnector className="!w-[78px]" />
+                        <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                          <TimelineIcon className="p-3" variant="ghost" color="blue">
+                            n°1
+                          </TimelineIcon>
+                          <div className="flex flex-col gap-1">
+                            <Typography variant="h6" color="blue-gray">
+                            </Typography>
+                          </div>
+                        </TimelineHeader>
+                      </TimelineItem>
+                      <TimelineItem className="h-28">
+                        <TimelineConnector className="!w-[78px]" />
+                        <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                          <TimelineIcon className="p-3" variant="ghost" color="blue">
+                            n°2
+                          </TimelineIcon>
+                          <div className="flex flex-col gap-1">
+                            <Typography variant="h6" color="blue-gray">
+                            </Typography>
+                          </div>
+                        </TimelineHeader>
+                      </TimelineItem>
+                      <TimelineItem className="h-28">
+                        <TimelineConnector className="!w-[78px]" />
+                        <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-white py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
+                          <TimelineIcon className="p-3" variant="ghost" color="blue">
+                            n°3
+                          </TimelineIcon>
+                          <div className="flex flex-col gap-1">
+                            <Typography variant="h6" color="blue-gray">
+                            </Typography>
+                          </div>
+                        </TimelineHeader>
+                      </TimelineItem>
+                      </Timeline>
+                    )}
                 </Timeline>
             </div>
             </CardBody>

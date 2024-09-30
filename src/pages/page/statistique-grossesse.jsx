@@ -1,3 +1,4 @@
+import { api_url } from "@/configs/api-url";
 import {
     CardHeader,
     Card,
@@ -5,7 +6,7 @@ import {
     Typography,
     Button,
     Tooltip,
-    Input
+    Input,
   } from "@material-tailwind/react";
   
   import Chart from "react-apexcharts";
@@ -13,39 +14,7 @@ import {
   import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
   import ParticlesComponent from "@/widgets/layout/particle";
   import { NavbarPublic } from "@/widgets/layout";
-
-
-  import { useState, useRef } from 'react';
-  import { useNavigate } from 'react-router-dom';
-  
-  
-  const chartConfig = {
-    type: "pie",
-    width: 500,
-    height: 500,
-    series: [44, 55, 13, 43, 22],
-    options: {
-      chart: {
-        toolbar: {
-          show: true,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: true,
-      },
-      colors: ["#7e32db", "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
-      legend: {
-        show: true,
-        labels: {
-            colors: 'white'
-          }
-      },
-      labels: ["18-25", "26-32", "33-40", "40-45", "45+"],
-    },
-  };
+  import { useState, useRef, useEffect } from 'react';
 
   export function StatistiqueGrossesse() {
 
@@ -76,6 +45,201 @@ import {
     
       };
 
+    const [dataNombreParTrancheAge, setDataNombreParTrancheAge] = useState([]);
+    const [formAnneeNombreParTrancheAge, setFormAnneeNombreParTrancheAge] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeNombreParTrancheAgeChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeNombreParTrancheAge({
+        ...formAnneeNombreParTrancheAge,
+        [name]: value,
+      });
+      console.log(formAnneeNombreParTrancheAge);
+    };
+
+    const getNombreParTrancheAge = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/grossesse/nombreParTrancheAge`;
+  
+      try {
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeNombreParTrancheAge),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataNombreParTrancheAge(data);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      }
+    };    
+
+    useEffect(() => {
+        getNombreParTrancheAge();
+        getComplicationParTrancheAge();
+    }, []);
+
+      const chartConfig = {
+        type: "pie",
+        width: 500,
+        height: 500,
+        series: dataNombreParTrancheAge.series ? dataNombreParTrancheAge.series : [],
+        options: {
+          chart: {
+            toolbar: {
+              show: true,
+            },
+          },
+          title: {
+            show: "",
+          },
+          dataLabels: {
+            enabled: true,
+          },
+          colors: dataNombreParTrancheAge.colors ? dataNombreParTrancheAge.colors : [],
+          legend: {
+            show: true,
+            labels: {
+                colors: 'white'
+              }
+          },
+          labels: dataNombreParTrancheAge.labels ? dataNombreParTrancheAge.labels : [],
+        },
+      };
+
+      const [dataComplicationParTrancheAge, setDataComplicationParTrancheAge] = useState([]);
+    const [formAnneeComplicationParTrancheAge, setFormAnneeComplicationParTrancheAge] = useState({
+      annee: 0,
+    });
+
+    const handleAnneeComplicationParTrancheAgeChange = (event) => {
+      const { name, value } = event.target;
+      setFormAnneeComplicationParTrancheAge({
+        ...formAnneeComplicationParTrancheAge,
+        [name]: value,
+      });
+      console.log(formAnneeComplicationParTrancheAge);
+    };
+
+    const getComplicationParTrancheAge = async (event) => {
+      if (event) event.preventDefault();
+
+      const apiFiltre = `${api_url}/api/Statistique/grossesse/complicationParTrancheAge`;
+  
+      try {
+        const response = await fetch(apiFiltre , {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
+          },
+          body: JSON.stringify(formAnneeComplicationParTrancheAge),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la demande.');
+        }
+  
+        const data = await response.json();
+        console.log('Réponse de API Filtre :', data);
+        setDataComplicationParTrancheAge(data);
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error.message);
+      }
+    }; 
+    
+      const chartConfig2 = {
+        type: "bar",
+        width: 500,
+        height: 500,
+        series: [
+          {
+            name: "Taux",
+            data: dataComplicationParTrancheAge.series ? dataComplicationParTrancheAge.series : [],
+          },
+        ],
+        options: {
+          chart: {
+            toolbar: {
+              show: true,
+            },
+          },
+          title: {
+            show: "",
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          colors: ["#3599ee"],
+          plotOptions: {
+            bar: {
+              columnWidth: "40%",
+              borderRadius: 2,
+              horizontal: true,
+            },
+          },
+          xaxis: {
+            axisTicks: {
+              show: false,
+            },
+            axisBorder: {
+              show: false,
+            },
+            labels: {
+              style: {
+                colors: "#979899",
+                fontSize: "12px",
+                fontFamily: "inherit",
+                fontWeight: 400,
+              },
+            },
+            categories: dataComplicationParTrancheAge.labels ? dataComplicationParTrancheAge.labels : [],
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: "#979899",
+                fontSize: "12px",
+                fontFamily: "inherit",
+                fontWeight: 400,
+              },
+            },
+          },
+          grid: {
+            show: true,
+            borderColor: "#dddddd",
+            strokeDashArray: 5,
+            xaxis: {
+              lines: {
+                show: true,
+              },
+            },
+            padding: {
+              top: 5,
+              right: 20,
+            },
+          },
+          fill: {
+            opacity: 1,
+          },
+          tooltip: {
+            theme: "light",
+          },
+        },
+      };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 place-items-center">
         <ParticlesComponent />
@@ -101,9 +265,9 @@ import {
                 <Typography variant="h6" color="white">
                     Nombre de grossesses par tranche d&apos;âge
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getNombreParTrancheAge} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeNombreParTrancheAgeChange} value={formAnneeNombreParTrancheAge.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -139,9 +303,9 @@ import {
                 <Typography variant="h6" color="white">
                     Taux de complications par tranche d&apos;âge
                 </Typography>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <form onSubmit={getComplicationParTrancheAge} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input size="sm" label="Année" type="number" min={2000} color="blue"/>
+                      <Input onChange={handleAnneeComplicationParTrancheAgeChange} value={formAnneeComplicationParTrancheAge.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
                     </div>
                     <div className="flex flex-col">
                       <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
@@ -159,7 +323,7 @@ import {
               </div>
             </CardHeader>
             <CardBody className="mt-4 grid place-items-center px-2" ref={chartRef2}>
-                <Chart {...chartConfig} />
+                <Chart {...chartConfig2} />
             </CardBody>
         </Card>
         
