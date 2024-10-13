@@ -35,7 +35,7 @@ const MapTextComponent = ({statisticData, annee, apiDetails}) => {
       mouseover: (e) => {
         e.target.setStyle({
           color: 'black',
-          fillColor: 'blue',
+          fillColor: '#21d148',
           fillOpacity: 0.5,
         });
       },

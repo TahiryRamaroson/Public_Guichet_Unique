@@ -116,7 +116,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
         dataLabels: {
           enabled: false,
         },
-        colors: ["#3599ee"],
+        colors: ["#21d148"],
         plotOptions: {
           bar: {
             columnWidth: "40%",
@@ -228,30 +228,30 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
             <NavbarPublic />
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-center z-10 mt-10">
-            <Typography variant="h3" color="white">
+            <Typography variant="h3" color="blue-gray">
                 Statistique des plaintes
             </Typography>
         </div>
-        <Card className="w-[80%] bg-transparent  border-2 mt-10">
+        <Card className="w-[80%]  border-2 mt-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                     Nombre de plaintes par catégorie
                 </Typography>
                 <form onSubmit={getNombreParCategorie} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input onChange={handleAnneeNombreParCategorieChange} value={formAnneeNombreParCategorie.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                      <Input onChange={handleAnneeNombreParCategorieChange} value={formAnneeNombreParCategorie.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                     </div>
                     <div className="flex flex-col">
-                      <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                      <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                         <MagnifyingGlassIcon className="h-5 w-5" />
                       </Button>
                     </div>
@@ -259,7 +259,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintChart} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintChart} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
@@ -270,26 +270,26 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
             </CardBody>
         </Card>
 
-        <Card className="w-[80%] bg-transparent border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                     Plaintes les plus fréquents par région
                 </Typography>
                 <form onSubmit={getPlusFrequentParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input onChange={handleAnneePlusFrequentParRegionChange} value={formAnneePlusFrequentParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                      <Input onChange={handleAnneePlusFrequentParRegionChange} value={formAnneePlusFrequentParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                     </div>
                     <div className="flex flex-col">
-                      <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                      <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                         <MagnifyingGlassIcon className="h-5 w-5" />
                       </Button>
                     </div>
@@ -297,7 +297,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap2} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintMap2} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>

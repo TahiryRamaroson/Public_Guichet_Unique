@@ -129,7 +129,7 @@ import {
         dataLabels: {
           enabled: false,
         },
-        colors: ["#3599ee"],
+        colors: ["#21d148"],
         plotOptions: {
           bar: {
             columnWidth: "40%",
@@ -288,31 +288,31 @@ import {
             <NavbarPublic />
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-center z-10 mt-10">
-            <Typography variant="h3" color="white">
+            <Typography variant="h3" color="blue-gray">
                 Statistique des naissances
             </Typography>
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-center mt-10 w-2/3">
-            <Card className="w-full bg-transparent  border-2">
+            <Card className="w-full  border-2">
                 <CardHeader
                   floated={false}
                   shadow={false}
                   color="transparent"
                   className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                 >
-                  <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+                  <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                     <Square3Stack3DIcon className="h-6 w-6" />
                   </div>
                   <div>
-                    <Typography variant="h6" color="white">
+                    <Typography variant="h6" color="blue-gray">
                       Nombre de naissance par période
                     </Typography>
                     <form onSubmit={getNombreParMois} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="flex flex-col">
-                          <Input onChange={handleAnneeNombreParMoisChange} value={formAnneeNombreParMois.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                          <Input onChange={handleAnneeNombreParMoisChange} value={formAnneeNombreParMois.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                         </div>
                         <div className="flex flex-col">
-                          <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                          <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                             <MagnifyingGlassIcon className="h-5 w-5" />
                           </Button>
                         </div>
@@ -320,7 +320,7 @@ import {
                   </div>
                   <div className="absolute right-0 top-0">
                     <Tooltip content="Télécharger PDF">
-                      <Button className="text-center" color="blue" size="sm" onClick={handlePrintChart} variant="text">
+                      <Button className="text-center" color="green" size="sm" onClick={handlePrintChart} variant="text">
                         <ArrowDownTrayIcon className="h-5 w-5" />
                       </Button>
                     </Tooltip>
@@ -331,26 +331,26 @@ import {
                 </CardBody>
             </Card>
         </div>
-        <Card className="w-[80%] bg-transparent border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                   Nombre de naissances par région
                 </Typography>
                 <form onSubmit={getNombreParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div className="flex flex-col">
-                    <Input onChange={handleAnneeNombreParRegionChange} value={formAnneeNombreParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                    <Input onChange={handleAnneeNombreParRegionChange} value={formAnneeNombreParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                   </div>
                   <div className="flex flex-col">
-                    <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                    <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                       <MagnifyingGlassIcon className="h-5 w-5" />
                     </Button>
                   </div>
@@ -358,7 +358,7 @@ import {
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap1} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintMap1} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
@@ -373,38 +373,38 @@ import {
             </CardBody>
         </Card>
 
-        <Card className="w-[80%] bg-transparent border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                   Répartition des sexes par région
                 </Typography>
                 <form onSubmit={getRepartitionSexeParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div className="flex flex-col">
-                    <Input onChange={handleAnneeRepartitionSexeParRegionChange} value={formAnneeRepartitionSexeParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                    <Input onChange={handleAnneeRepartitionSexeParRegionChange} value={formAnneeRepartitionSexeParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                   </div>
                   <div className="flex flex-col">
-                    <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                    <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                       <MagnifyingGlassIcon className="h-5 w-5" />
                     </Button>
                   </div>
                   <div className="flex gap-10">
-                  <Radio name="sexe" value={1} label="Homme" color="blue" ripple={true} checked={formAnneeRepartitionSexeParRegion.sexe == 1} onChange={handleAnneeRepartitionSexeParRegionChange} />
-                  <Radio name="sexe" value={0} label="Femme" color="blue" ripple={true} checked={formAnneeRepartitionSexeParRegion.sexe == 0} onChange={handleAnneeRepartitionSexeParRegionChange} />
+                  <Radio name="sexe" value={1} label="Homme" color="green" ripple={true} checked={formAnneeRepartitionSexeParRegion.sexe == 1} onChange={handleAnneeRepartitionSexeParRegionChange} />
+                  <Radio name="sexe" value={0} label="Femme" color="green" ripple={true} checked={formAnneeRepartitionSexeParRegion.sexe == 0} onChange={handleAnneeRepartitionSexeParRegionChange} />
                 </div>
                 </form>
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap2} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintMap2} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>

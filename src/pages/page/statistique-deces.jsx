@@ -146,7 +146,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
         dataLabels: {
           enabled: false,
         },
-        colors: ["#3599ee"],
+        colors: ["#21d148"],
         plotOptions: {
           bar: {
             columnWidth: "20%",
@@ -346,30 +346,30 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
             <NavbarPublic />
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-center z-10 mt-10">
-            <Typography variant="h3" color="white">
+            <Typography variant="h3" color="blue-gray">
                 Statistique des décès
             </Typography>
         </div>
-        <Card className="w-[80%] bg-transparent  border-2 mt-10">
+        <Card className="w-[80%]  border-2 mt-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                 Taux de mortalité par tranche d&apos;âge
                 </Typography>
                 <form onSubmit={getMortaliteParTrancheAge} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input onChange={handleAnneeMortaliteParTrancheAgeChange} value={formAnneeMortaliteParTrancheAge.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                      <Input onChange={handleAnneeMortaliteParTrancheAgeChange} value={formAnneeMortaliteParTrancheAge.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                     </div>
                     <div className="flex flex-col">
-                      <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                      <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                         <MagnifyingGlassIcon className="h-5 w-5" />
                       </Button>
                     </div>
@@ -377,7 +377,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintChart1} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintChart1} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
@@ -388,26 +388,26 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
             </CardBody>
         </Card>
 
-        <Card className="w-[80%] bg-transparent  border-2 mt-10">
+        <Card className="w-[80%]  border-2 mt-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                     Causes principales de décès par tranche d&apos;âge
                 </Typography>
                 <form onSubmit={getCauseParTrancheAge} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input onChange={handleAnneeCauseParTrancheAgeChange} value={formAnneeCauseParTrancheAge} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                      <Input onChange={handleAnneeCauseParTrancheAgeChange} value={formAnneeCauseParTrancheAge} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                     </div>
                     <div className="flex flex-col">
-                      <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                      <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                         <MagnifyingGlassIcon className="h-5 w-5" />
                       </Button>
                     </div>
@@ -415,21 +415,21 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintChart2} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintChart2} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
               </div>
             </CardHeader>
             <CardBody className="mt-4 grid place-items-center px-2" ref={chartRef2}>
-            <Card className="h-full w-full bg-transparent">
+            <Card className="h-full w-full bg-transparent" shadow={false}>
               <table className="w-full min-w-max table-auto text-left">
                 <thead>
                   <tr>
                       <th className="border-b border-white-100 p-4">
                         <Typography
                           variant="h6"
-                          color="white"
+                          color="blue-gray"
                           className="font-normal leading-none"
                         >
                           Tranche d&apos;âge
@@ -438,7 +438,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
                       <th className="border-b border-white-100 p-4">
                         <Typography
                           variant="h6"
-                          color="white"
+                          color="blue-gray"
                           className="font-normal leading-none"
                         >
                           Cause
@@ -450,43 +450,43 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
                   {dataCauseParTrancheAge && dataCauseParTrancheAge.map((item) => (
                     <tr key={item.trancheAge} className="even:bg-white-50/50">
                       <td className="p-4">
-                        <Typography variant="small" color="white" className="font-normal">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
                           {item.trancheAge}
                         </Typography>
                       </td>
                       <td className="p-4">
-                        <Typography variant="small" color="white" className="font-normal">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
                           {item.causeDeces ? item.causeDeces : 'Non défini'}
                         </Typography>
                       </td>
                     </tr>
-                    ))};
+                    ))}
                 </tbody>
               </table>
             </Card>
             </CardBody>
         </Card>
 
-        <Card className="w-[80%] bg-transparent border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                   Taux de mortalité par région
                 </Typography>
                 <form onSubmit={getTauxMortaliteParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input onChange={handleAnneeTauxMortaliteParRegionChange} value={formAnneeTauxMortaliteParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                      <Input onChange={handleAnneeTauxMortaliteParRegionChange} value={formAnneeTauxMortaliteParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                     </div>
                     <div className="flex flex-col">
-                      <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                      <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                         <MagnifyingGlassIcon className="h-5 w-5" />
                       </Button>
                     </div>
@@ -494,7 +494,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap1} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintMap1} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
@@ -509,26 +509,26 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
             </CardBody>
         </Card>
 
-        <Card className="w-[80%] bg-transparent border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10">
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#3599ee] p-5 text-white">
+              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="blue-gray">
                     Causes principales de décès par région
                 </Typography>
                 <form onSubmit={getCauseParRegion} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex flex-col">
-                      <Input onChange={handleAnneeCauseParRegionChange} value={formAnneeCauseParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="blue"/>
+                      <Input onChange={handleAnneeCauseParRegionChange} value={formAnneeCauseParRegion.annee} name="annee" size="sm" label="Année" type="number" min={0} color="green"/>
                     </div>
                     <div className="flex flex-col">
-                      <Button variant="text" color="blue" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
+                      <Button variant="text" color="green" type="submit" size="sm" className="w-[25%] text-center transform rotate-90">
                         <MagnifyingGlassIcon className="h-5 w-5" />
                       </Button>
                     </div>
@@ -536,7 +536,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
               </div>
               <div className="absolute right-0 top-0">
                 <Tooltip content="Télécharger PDF">
-                  <Button className="text-center" color="blue" size="sm" onClick={handlePrintMap2} variant="text">
+                  <Button className="text-center" color="green" size="sm" onClick={handlePrintMap2} variant="text">
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                 </Tooltip>
