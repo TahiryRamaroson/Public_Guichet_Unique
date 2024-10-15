@@ -122,7 +122,7 @@ import {
           dataLabels: {
             enabled: false,
           },
-          colors: ["#28da40", "#3599ee"],
+          colors: ["#58b15c", "#3599ee"],
           stroke: {
             lineCap: "round",
             curve: "smooth",
@@ -245,7 +245,7 @@ import {
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
@@ -283,7 +283,7 @@ import {
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>

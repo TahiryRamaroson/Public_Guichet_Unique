@@ -79,7 +79,7 @@ export function NavbarPublic() {
   }, []);
  
   return (
-    <Navbar className="mx-auto max-w-screen-xl px-6 py-3 bg-[#21d148]">
+    <Navbar className="mx-auto max-w-screen-xl px-6 py-3 bg-[#58b15c]">
       <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"

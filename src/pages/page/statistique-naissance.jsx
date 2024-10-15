@@ -129,7 +129,7 @@ import {
         dataLabels: {
           enabled: false,
         },
-        colors: ["#21d148"],
+        colors: ["#58b15c"],
         plotOptions: {
           bar: {
             columnWidth: "40%",
@@ -151,7 +151,7 @@ import {
               fontWeight: 400,
             },
           },
-          categories: ["January", "February", "March", "April", "May", "June", "Juy", "August", "September", "October", "November", "December"],
+          categories: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
         },
         yaxis: {
           labels: {
@@ -300,7 +300,7 @@ import {
                   color="transparent"
                   className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                 >
-                  <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
+                  <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
                     <Square3Stack3DIcon className="h-6 w-6" />
                   </div>
                   <div>
@@ -338,7 +338,7 @@ import {
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
@@ -380,7 +380,7 @@ import {
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#21d148] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>

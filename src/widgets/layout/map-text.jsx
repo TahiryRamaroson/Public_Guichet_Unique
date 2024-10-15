@@ -107,8 +107,8 @@ const MapTextComponent = ({statisticData, annee, apiDetails}) => {
         <DialogHeader>Détails région {selectedFeature ? selectedFeature.properties.name : ''}</DialogHeader>
         <DialogBody>
           <div className="flex justify-between items-center mb-4 gap-4">
-            <Input type="text" label="Rechercher" color='blue' value={searchTerm} onChange={handleSearchChange} />
-            <Button color="blue" size="regular" ripple="light">
+            <Input type="text" label="Rechercher" color='green' value={searchTerm} onChange={handleSearchChange} />
+            <Button color="green" size="regular" ripple="light">
               <MagnifyingGlassIcon className="h-4 w-4 transform rotate-90" />
             </Button>
           </div>
