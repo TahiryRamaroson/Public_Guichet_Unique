@@ -293,19 +293,19 @@ import {
             </Typography>
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-center mt-10 w-2/3">
-            <Card className="w-full  border-2">
+            <Card ref={chartRef} className="w-full  border-2">
                 <CardHeader
                   floated={false}
                   shadow={false}
                   color="transparent"
                   className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                 >
-                  <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
+                  <div className="w-max rounded-lg bg-[#58b15c] p-5 text-white">
                     <Square3Stack3DIcon className="h-6 w-6" />
                   </div>
                   <div>
                     <Typography variant="h6" color="blue-gray">
-                      Nombre de naissance par période
+                      Nombre de naissance par mois
                     </Typography>
                     <form onSubmit={getNombreParMois} className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div className="flex flex-col">
@@ -326,19 +326,19 @@ import {
                     </Tooltip>
                   </div>
                 </CardHeader>
-                <CardBody className="px-2 pb-0" ref={chartRef}>
+                <CardBody className="px-2 pb-0">
                   <Chart {...chartConfig}/>
                 </CardBody>
             </Card>
         </div>
-        <Card className="w-[80%] border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10" ref={mapRef1}>
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-white">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
@@ -364,7 +364,7 @@ import {
                 </Tooltip>
               </div>
             </CardHeader>
-            <CardBody className="px-2 pb-0" ref={mapRef1}>
+            <CardBody className="px-2 pb-0">
             {loading ? (
               <p className="animate-pulse">Chargement des données...</p>
             ) : (
@@ -373,14 +373,14 @@ import {
             </CardBody>
         </Card>
 
-        <Card className="w-[80%] border-2 mt-10 mb-10">
+        <Card className="w-[80%] border-2 mt-10 mb-10" ref={mapRef2}>
             <CardHeader
               floated={false}
               shadow={false}
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-white">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
@@ -410,7 +410,7 @@ import {
                 </Tooltip>
               </div>
             </CardHeader>
-            <CardBody className="px-2 pb-0" ref={mapRef2}>
+            <CardBody className="px-2 pb-0">
             {loadingSexe ? (
               <p className="animate-pulse">Chargement des données...</p>
             ) : (

@@ -245,7 +245,7 @@ import {
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-white">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>
@@ -283,7 +283,7 @@ import {
               color="transparent"
               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
             >
-              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-blue-gray">
+              <div className="w-max rounded-lg bg-[#58b15c] p-5 text-white">
                 <Square3Stack3DIcon className="h-6 w-6" />
               </div>
               <div>

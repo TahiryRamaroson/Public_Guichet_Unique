@@ -87,7 +87,7 @@ export function NavbarPublic() {
           variant="h6"
           className="mr-4 cursor-pointer py-1.5"
         >
-          <img src="../../../public/img/logo_mps.png" className="w-10"/>
+          <img src="../../../public/img/logo.svg" className="w-10"/>
         </Typography>
         <div className="hidden lg:block">
           <NavList />

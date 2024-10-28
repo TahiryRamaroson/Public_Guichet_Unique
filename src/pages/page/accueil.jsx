@@ -36,7 +36,7 @@ export function Accueil() {
             )}
           >
             {information_accueil && information_accueil.map((item) => (   
-              <div key={item.titre} className="flex gap-5 items-center justify-center h-[50vh] bg-blue-500 opacity-60 text-white">
+              <div key={item.titre} className="flex gap-5 items-center justify-center h-[50vh] bg-green-500 opacity-60 text-white">
                 <Typography variant="h4" color="white" className="absolute top-5 break-words whitespace-normal overflow-auto ml-20 mr-20">{item.titre}</Typography>
                 <Typography variant="paragraph" color="white" className="break-words whitespace-normal overflow-auto ml-20 mr-20">{item.description}</Typography>
               </div>
@@ -45,28 +45,28 @@ export function Accueil() {
         </div>
         <div className="w-2/5 h-[50vh] lg:block bg-white z-10 rounded-r-xl">
           <Card className="w-full grid grid-cols-1 gap-3 place-items-center" shadow={false}>
-            <img src="../../../public/img/logo_mps.png" className="h-20"/>
-              <Button className="w-[50%]" color="blue" variant="gradient">
+            <img src="../../../public/img/logo.svg" className="h-20"/>
+              <Button className="w-[50%]" color="green" variant="gradient">
                 <Link to="/page/statistique-naissance">
                   Naissance
                 </Link>
               </Button>
-            <Button className="w-[50%]" color="blue" variant="gradient">
+            <Button className="w-[50%]" color="green" variant="gradient">
               <Link to="/page/statistique-grossesse">
                 Grossesse
               </Link>
             </Button>
-            <Button className="w-[50%]" color="blue" variant="gradient">
+            <Button className="w-[50%]" color="green" variant="gradient">
               <Link to="/page/statistique-deces">
                 Décès
               </Link>
             </Button>
-            <Button className="w-[50%]" color="blue" variant="gradient">
+            <Button className="w-[50%]" color="green" variant="gradient">
               <Link to="/page/statistique-migration">
                 Migration
               </Link>
             </Button>
-            <Button className="w-[50%]" color="blue" variant="gradient">
+            <Button className="w-[50%]" color="green" variant="gradient">
               <Link to="/page/statistique-plainte">
                 Plainte
               </Link>
