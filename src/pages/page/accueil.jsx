@@ -14,7 +14,7 @@ import { useNavigate, Link } from 'react-router-dom';
 export function Accueil() {
   
   return (
-    <div className="relative h-screen bg-cover bg-center flex items-center justify-center min-h-screen" style={{ backgroundImage: "url('../../public/img/bg_public_gu.jpg')" }}>
+    <div className="relative h-screen bg-cover bg-center flex items-center justify-center min-h-screen" style={{ backgroundImage: "url('/img/bg_public_gu.jpg')" }}>
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <Typography variant="h2" className="z-10 absolute top-20 m-auto text-center" color="white">Indicateurs sociaux et suivi du bien être de la population à Madagascar</Typography>
       <section className="m-8 flex bg-blue-gray items-center justify-center w-[80vw]">
@@ -45,7 +45,7 @@ export function Accueil() {
         </div>
         <div className="w-2/5 h-[50vh] lg:block bg-white z-10 rounded-r-xl">
           <Card className="w-full grid grid-cols-1 gap-3 place-items-center" shadow={false}>
-            <img src="../../../public/img/logo.svg" className="h-20"/>
+            <img src="/img/logo.svg" className="h-20"/>
               <Button className="w-[50%]" color="green" variant="gradient">
                 <Link to="/page/statistique-naissance">
                   Naissance
